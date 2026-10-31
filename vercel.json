@@ -9,7 +9,16 @@
   },
   "routes": [
     {
-      "handle": "filesystem"
+      "src": "/build/(.*)",
+      "dest": "/build/$1"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "/favicon.png",
+      "dest": "/assets/favicon.png"
     },
     {
       "src": "/(.*)",
@@ -30,6 +39,7 @@
     "SESSION_DRIVER": "cookie",
     "LOG_CHANNEL": "stderr",
     "DB_CONNECTION": "sqlite",
-    "GREI_SHOW_DEMO": "true"
+    "GREI_SHOW_DEMO": "true",
+    "ASSET_URL": "/"
   }
 }
