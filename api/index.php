@@ -14,8 +14,14 @@ if (isset($_ENV['VERCEL']) || isset($_SERVER['VERCEL']) || getenv('VERCEL')) {
         }
     }
 
-    if (!file_exists('/tmp/database.sqlite') && file_exists(__DIR__ . '/../database/database.sqlite')) {
-        @copy(__DIR__ . '/../database/database.sqlite', '/tmp/database.sqlite');
+    if (!file_exists('/tmp/database.sqlite')) {
+        if (file_exists(__DIR__ . '/../database/seed.sqlite')) {
+            @copy(__DIR__ . '/../database/seed.sqlite', '/tmp/database.sqlite');
+        } elseif (file_exists(__DIR__ . '/../database/database.sqlite')) {
+            @copy(__DIR__ . '/../database/database.sqlite', '/tmp/database.sqlite');
+        } else {
+            @touch('/tmp/database.sqlite');
+        }
     }
     putenv('DB_DATABASE=/tmp/database.sqlite');
     $_ENV['DB_DATABASE'] = '/tmp/database.sqlite';
