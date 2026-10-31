@@ -1,0 +1,998 @@
+/* GREI Architectural Living Enhancements: Rituals, Materials, Neighborhood, Objects, Shortlist */
+
+/* Kinetic Meridian Glyph */
+.kinetic-meridian {
+    width: var(--meridian-size, 64px);
+    height: var(--meridian-size, 64px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.meridian-svg {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    overflow: visible;
+}
+.meridian-orbit-outer {
+    stroke: var(--color-brass);
+    stroke-width: 1px;
+    opacity: 0.6;
+}
+.meridian-orbit-dashed {
+    stroke: var(--color-muted);
+    stroke-width: 0.75px;
+    stroke-dasharray: 4 4;
+    transform-origin: 50px 50px;
+    animation: meridianSpin 60s linear infinite;
+}
+@keyframes meridianSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.meridian-tick {
+    stroke: var(--color-brass);
+    stroke-width: 1.5px;
+}
+.meridian-diamond {
+    stroke: var(--color-brass);
+    stroke-width: 0.8px;
+    fill: rgba(165, 129, 82, 0.08);
+}
+.meridian-needle {
+    transform-origin: 50px 50px;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.needle-north {
+    stroke: var(--color-forest);
+    stroke-width: 1.5px;
+}
+.needle-south {
+    stroke: var(--color-muted);
+    stroke-width: 1px;
+    stroke-dasharray: 2 2;
+}
+.needle-sun {
+    fill: var(--color-brass);
+    filter: drop-shadow(0 0 3px rgba(165, 129, 82, 0.8));
+}
+.meridian-pivot {
+    fill: var(--color-forest);
+}
+
+/* Solar Dial Section */
+.solar-dial-section {
+    padding: 100px 0 80px;
+    border-top: 1px solid var(--color-line);
+}
+.solar-meridian-badge {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+.solar-stage {
+    position: relative;
+    min-height: 540px;
+    border-radius: 4px;
+    overflow: hidden;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.8s ease, color 0.8s ease;
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.03);
+}
+.solar-stage[data-solar-phase="dawn"] {
+    background: linear-gradient(145deg, #E8EEEC 0%, #F5F1E8 100%);
+    color: var(--color-charcoal);
+}
+.solar-stage[data-solar-phase="zenith"] {
+    background: linear-gradient(145deg, #FAF7F0 0%, #EAE4D7 100%);
+    color: var(--color-charcoal);
+}
+.solar-stage[data-solar-phase="golden"] {
+    background: linear-gradient(145deg, #F3E4CD 0%, #DCBE98 100%);
+    color: var(--color-charcoal);
+}
+.solar-stage[data-solar-phase="twilight"] {
+    background: linear-gradient(145deg, #1A241E 0%, #101612 100%);
+    color: var(--color-ivory);
+}
+.solar-celestial-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+.solar-orbit-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+.solar-orbit-path {
+    fill: none;
+    stroke: rgba(165, 129, 82, 0.35);
+    stroke-width: 1.5px;
+    stroke-dasharray: 6 6;
+}
+.solar-sun-orb {
+    fill: #C79A5E;
+    filter: drop-shadow(0 0 12px rgba(220, 165, 80, 0.9));
+    transition: cx 0.8s cubic-bezier(0.16, 1, 0.3, 1), cy 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.solar-sun-pulse {
+    fill: rgba(199, 154, 94, 0.25);
+    transition: cx 0.8s cubic-bezier(0.16, 1, 0.3, 1), cy 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: sunPulse 3s ease-in-out infinite;
+}
+@keyframes sunPulse {
+    0%, 100% { r: 24px; opacity: 0.4; }
+    50% { r: 36px; opacity: 0.15; }
+}
+.solar-sculpture-container {
+    position: relative;
+    margin: 0 auto;
+    max-width: 440px;
+    text-align: center;
+    z-index: 2;
+}
+.solar-sculpture-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.12));
+    transition: filter 0.8s ease, transform 0.8s ease;
+}
+.solar-stage[data-solar-phase="twilight"] .solar-sculpture-img {
+    filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.45)) brightness(0.72) contrast(1.15);
+}
+.solar-telemetry {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    z-index: 3;
+    padding-top: 24px;
+}
+.telemetry-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.telemetry-block .eyebrow {
+    font-size: 8px;
+    opacity: 0.7;
+}
+.telemetry-block strong {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    color: var(--color-forest);
+    transition: color 0.8s ease;
+}
+.solar-stage[data-solar-phase="twilight"] .telemetry-block strong {
+    color: var(--color-ivory);
+}
+.telemetry-description {
+    flex: 1;
+    min-width: 280px;
+}
+.telemetry-description p {
+    font-size: 13px;
+    line-height: 1.8;
+    margin: 0;
+    opacity: 0.85;
+    font-style: italic;
+}
+.solar-controller {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 28px;
+}
+.solar-time-btn {
+    background: var(--color-stone);
+    padding: 20px 22px;
+    border-radius: 2px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.solar-time-btn:hover {
+    background: #E2D9CB;
+    transform: translateY(-2px);
+}
+.solar-time-btn.is-active {
+    background: var(--color-forest);
+    color: var(--color-ivory);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37, 40, 36, 0.12);
+}
+.solar-time-btn .time-hour {
+    font-family: var(--font-display);
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: var(--color-brass);
+}
+.solar-time-btn.is-active .time-hour {
+    color: #D6A86E;
+}
+.solar-time-btn .time-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+.solar-time-btn .time-sub {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+/* Spatial Curator Studio Workbench */
+.curator-section {
+    padding: 90px 0;
+    border-top: 1px solid var(--color-line);
+}
+.curator-workbench {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 50px;
+    align-items: stretch;
+    margin-top: 40px;
+}
+.curator-stage {
+    position: relative;
+    min-height: 520px;
+    background: var(--color-stone);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+.curator-canvas-backdrop {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.7) 0%, rgba(229,221,208,0.3) 100%);
+    transition: background 0.6s ease;
+}
+.curator-layer {
+    position: absolute;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+}
+.curator-layer-artifacts {
+    right: -20px;
+    bottom: 20px;
+    width: 68%;
+    z-index: 2;
+}
+.curator-img-artifacts {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.1));
+}
+.curator-layer-monolith {
+    left: 20px;
+    top: 30px;
+    width: 55%;
+    z-index: 3;
+}
+.curator-img-monolith {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.14));
+}
+.curator-blueprint-stamp {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(245, 241, 232, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 16px 8px 10px;
+    border-radius: 99px;
+    border: 1px solid var(--color-line);
+}
+.blueprint-code-wrap {
+    display: flex;
+    flex-direction: column;
+}
+.blueprint-code-wrap .eyebrow {
+    font-size: 8px;
+}
+.blueprint-code-wrap strong {
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: var(--color-forest);
+}
+.curator-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+}
+.archetype-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+.archetype-btn {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 22px;
+    background: var(--color-ivory);
+    border: 1px solid var(--color-line);
+    border-radius: 2px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.archetype-btn:hover {
+    border-color: var(--color-brass);
+    background: #FAF7F2;
+}
+.archetype-btn.is-active {
+    border-color: var(--color-brass);
+    background: var(--color-stone);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+.archetype-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+.archetype-btn strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-forest);
+    margin-bottom: 3px;
+}
+.archetype-btn span {
+    display: block;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+.curator-scales {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+.scale-btn {
+    padding: 10px 18px;
+    font-size: 12px;
+    background: var(--color-ivory);
+    border: 1px solid var(--color-line);
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.scale-btn.is-selected {
+    background: var(--color-forest);
+    color: var(--color-ivory);
+    border-color: var(--color-forest);
+}
+.curator-handoff {
+    margin-top: 15px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-line);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.curator-summary p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+    font-style: italic;
+    margin: 0;
+}
+
+/* Curated Artifacts Stage in Curated Objects */
+.curated-artifacts-stage {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 40px;
+    align-items: center;
+    background: var(--color-stone);
+    padding: 40px 48px;
+    border-radius: 4px;
+    margin-bottom: 40px;
+}
+.artifacts-visual {
+    text-align: center;
+}
+.curated-artifacts-image {
+    width: 100%;
+    max-width: 540px;
+    height: auto;
+    filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.12));
+    transition: transform 0.5s ease;
+}
+.curated-artifacts-image:hover {
+    transform: scale(1.02);
+}
+.artifacts-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.artifacts-badge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.artifacts-aside h3 {
+    font-family: var(--font-display);
+    font-size: clamp(22px, 2.2vw, 32px);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.04em;
+    color: var(--color-forest);
+    margin: 0;
+}
+.artifacts-aside p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0;
+}
+
+/* Material Palette */
+.material-palette-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--color-line);
+    margin-top: 50px;
+}
+.material-palette-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 35px;
+    gap: 30px;
+}
+.material-palette-header h2 {
+    font-size: clamp(28px, 3vw, 42px);
+    margin: 12px 0 0;
+}
+.material-palette-header p:not(.eyebrow) {
+    color: var(--color-muted);
+    font-size: 14px;
+    max-width: 480px;
+    line-height: 1.8;
+}
+.material-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px;
+}
+.material-card {
+    background: var(--color-stone);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px;
+    border-radius: 2px;
+    transition: transform var(--duration-fast), background var(--duration-fast);
+}
+.material-card:hover {
+    transform: translateY(-3px);
+    background: #E0D7C8;
+}
+.material-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-bottom: 24px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.08);
+}
+.swatch-travertine { background: #D9CEBE; }
+.swatch-oak { background: #5A4738; }
+.swatch-brass { background: #A58152; }
+.swatch-plaster { background: #ECE6DC; }
+.swatch-linen { background: #C8BAA8; }
+.swatch-velvet { background: #5C2B29; }
+.swatch-walnut { background: #423226; }
+.swatch-metal { background: #8E918C; }
+.material-card strong {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-forest);
+    display: block;
+    margin-bottom: 6px;
+}
+.material-card span {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--color-muted);
+}
+
+/* Stay Rituals */
+.stay-rituals-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--color-line);
+    margin-top: 50px;
+}
+.stay-rituals-heading {
+    margin-bottom: 35px;
+}
+.stay-rituals-heading h2 {
+    font-size: clamp(28px, 3vw, 42px);
+    margin: 12px 0 0;
+}
+.rituals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+}
+.ritual-card {
+    border: 1px solid var(--color-line);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.4);
+}
+.ritual-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.ritual-card .icon {
+    width: 28px;
+    height: 28px;
+    color: var(--color-brass);
+}
+.ritual-index {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-muted);
+}
+.ritual-card h3 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-forest);
+    margin: 0;
+}
+.ritual-card p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0;
+}
+
+/* Neighborhood Sense of Place Guide */
+.neighborhood-guide-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--color-line);
+    margin-top: 50px;
+}
+.neighborhood-header {
+    margin-bottom: 35px;
+}
+.neighborhood-header h2 {
+    font-size: clamp(28px, 3vw, 42px);
+    margin: 12px 0 0;
+}
+.neighborhood-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+.neighborhood-card {
+    background: var(--color-stone);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+.neighborhood-card .icon {
+    width: 24px;
+    height: 24px;
+    color: var(--color-brass);
+}
+.neighborhood-card h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-forest);
+    margin: 0;
+}
+.neighborhood-card p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0;
+}
+
+/* Curated Objects / The Edit */
+.curated-objects-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--color-line);
+    margin-top: 50px;
+}
+.curated-objects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 35px;
+    gap: 20px;
+}
+.curated-objects-header h2 {
+    font-size: clamp(28px, 3vw, 42px);
+    margin: 12px 0 0;
+}
+.curated-objects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+}
+.object-card {
+    border: 1px solid var(--color-line);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--color-ivory);
+    gap: 18px;
+}
+.object-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+.object-card h3 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-forest);
+    margin: 0 0 6px;
+}
+.object-card p {
+    font-size: 13px;
+    color: var(--color-muted);
+    line-height: 1.7;
+    margin: 0;
+}
+.object-source-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-brass);
+    background: transparent;
+    padding: 8px 0;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duration-fast);
+}
+.object-source-btn:hover {
+    border-color: var(--color-brass);
+}
+
+/* The GREI Standard (About Page Tenets) */
+.grei-standards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 28px;
+    margin-top: 40px;
+}
+.standard-card {
+    border-top: 1px solid var(--color-brass);
+    padding-top: 24px;
+}
+.standard-card .standard-number {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-brass);
+    letter-spacing: 0.15em;
+    display: block;
+    margin-bottom: 12px;
+}
+.standard-card h3 {
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--color-forest);
+    margin: 0 0 10px;
+}
+.standard-card p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0;
+}
+
+/* Design Studio Collaborative Journey */
+.design-journey-section {
+    padding: 60px 0;
+    border-top: 1px solid var(--color-line);
+}
+.journey-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 35px;
+}
+.journey-step {
+    border-top: 2px solid var(--color-stone);
+    padding-top: 24px;
+    position: relative;
+}
+.journey-step.is-active {
+    border-top-color: var(--color-brass);
+}
+.step-number {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-brass);
+    display: block;
+    margin-bottom: 12px;
+}
+.journey-step h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-forest);
+    margin: 0 0 10px;
+}
+.journey-step p {
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--color-muted);
+    margin: 0;
+}
+
+/* Mobile Sticky Action Bar */
+.mobile-sticky-action {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 45;
+    background: rgba(245, 241, 232, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--color-line);
+    padding: 14px 20px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+.mobile-sticky-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.mobile-sticky-price strong {
+    font-size: 17px;
+    color: var(--color-forest);
+    display: block;
+}
+.mobile-sticky-price span {
+    font-size: 10px;
+    color: var(--color-muted);
+}
+.mobile-sticky-action .solid-button {
+    padding: 12px 20px;
+    font-size: 12px;
+}
+
+/* Shortlist Badge & Drawer */
+.shortlist-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-forest);
+    background: var(--color-stone);
+    padding: 8px 16px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: background var(--duration-fast);
+}
+.shortlist-trigger:hover {
+    background: #DDD5C6;
+}
+.shortlist-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-brass);
+    color: var(--color-ivory);
+    font-size: 10px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+}
+.listing-save-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 5;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(245, 241, 232, 0.92);
+    backdrop-filter: blur(8px);
+    color: var(--color-forest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: transform var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
+}
+.listing-save-btn:hover {
+    transform: scale(1.08);
+    background: var(--color-ivory);
+}
+.listing-save-btn.is-saved {
+    color: #923E2A;
+}
+.listing-save-btn .icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Shortlist Floating Pill */
+.shortlist-floating-pill {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--color-forest);
+    color: var(--color-ivory);
+    padding: 14px 22px;
+    border-radius: 99px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform var(--duration-fast), box-shadow var(--duration-fast);
+}
+.shortlist-floating-pill:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+.shortlist-floating-pill .shortlist-count {
+    background: var(--color-brass);
+}
+
+/* Shortlist Drawer Modal */
+.shortlist-drawer {
+    border: 0;
+    padding: 0;
+    background: transparent;
+    max-width: none;
+    max-height: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+.shortlist-drawer::backdrop {
+    background: rgba(12, 22, 15, 0.6);
+    backdrop-filter: blur(4px);
+}
+.shortlist-drawer-content {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-ivory);
+    border-top: 1px solid var(--color-line);
+    border-radius: 16px 16px 0 0;
+    padding: 36px 32px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+}
+.shortlist-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-line);
+    padding-bottom: 18px;
+}
+.shortlist-drawer-header h2 {
+    font-size: 22px;
+    margin: 0;
+    color: var(--color-forest);
+}
+.shortlist-items-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.shortlist-item-card {
+    display: flex;
+    gap: 16px;
+    background: var(--color-stone);
+    padding: 14px;
+    border-radius: 4px;
+    align-items: center;
+    position: relative;
+}
+.shortlist-item-thumb {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+.shortlist-item-info {
+    flex: 1;
+    min-width: 0;
+}
+.shortlist-item-info h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 4px;
+    color: var(--color-forest);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.shortlist-item-info span {
+    display: block;
+    font-size: 11px;
+    color: var(--color-muted);
+}
+.shortlist-item-remove {
+    background: transparent;
+    color: var(--color-muted);
+    padding: 6px;
+    cursor: pointer;
+}
+.shortlist-drawer-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    align-items: center;
+    border-top: 1px solid var(--color-line);
+    padding-top: 20px;
+}
+
+@media (max-width: 960px) {
+    .neighborhood-grid { grid-template-columns: 1fr; }
+    .journey-timeline { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .material-palette-header { flex-direction: column; align-items: flex-start; }
+    .mobile-sticky-action { display: block; }
+    .solar-controller { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .curator-workbench { grid-template-columns: 1fr; }
+    .curated-artifacts-stage { grid-template-columns: 1fr; padding: 30px 24px; }
+}
+@media (max-width: 600px) {
+    .solar-stage { padding: 30px 20px; min-height: 440px; }
+    .solar-controller { grid-template-columns: 1fr; }
+    .telemetry-block strong { font-size: 16px; }
+    .journey-timeline { grid-template-columns: 1fr; }
+    .shortlist-drawer-content { padding: 24px 18px; }
+    .shortlist-drawer-actions { flex-direction: column; width: 100%; }
+    .shortlist-drawer-actions .solid-button { width: 100%; justify-content: center; }
+}

@@ -1,0 +1,18 @@
+<?php
+use App\Livewire\AdminComponent;
+use App\Models\Listing;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
+use Livewire\WithPagination;
+
+new #[Layout('layouts::admin')] class extends AdminComponent {
+    use WithPagination;
+    #[Url] public string $search=''; #[Url] public string $kind=''; #[Url] public string $status='';
+    public function updated():void{$this->resetPage();}
+    #[Computed] public function listings(){return Listing::with('media')->when($this->status==='archived',fn($q)=>$q->onlyTrashed())->when(in_array($this->status,['draft','published']),fn($q)=>$q->where('status',$this->status))->when(in_array($this->kind,['property','stay']),fn($q)=>$q->where('kind',$this->kind))->when($this->search,fn($q)=>$q->where(fn($q)=>$q->where('title','like','%'.$this->search.'%')->orWhere('location','like','%'.$this->search.'%')))->latest()->paginate(12);}
+    public function archive(int $id):void{Listing::findOrFail($id)->delete();session()->flash('status','Listing archived. You can restore it from Archived.');}
+    public function restore(int $id):void{Listing::onlyTrashed()->findOrFail($id)->restore();session()->flash('status','Listing restored.');}
+};
+?>
+<div><header class="admin-page-heading"><div><p class="eyebrow">The GREI collection</p><h1>Properties & stays</h1><p>Manage the spaces people can discover.</p></div><a class="solid-button" href="{{ route('admin.listings.create',['kind'=>$kind==='stay'?'stay':'property']) }}">Add a space<x-grei.icon name="plus" /></a></header><div class="admin-filterbar"><input type="search" wire:model.live.debounce.300ms="search" placeholder="Search title or location" aria-label="Search listings"><select wire:model.live="kind" aria-label="Listing kind"><option value="">All spaces</option><option value="property">Properties</option><option value="stay">Furnished stays</option></select><select wire:model.live="status" aria-label="Publication status"><option value="">Active listings</option><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></div>@if(session('status'))<p class="admin-flash" role="status">{{ session('status') }}</p>@endif<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Space</th><th>Kind / category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead><tbody>@forelse($this->listings as $listing)<tr wire:key="admin-listing-{{ $listing->id }}"><td><div class="admin-space-cell"><img src="{{ $listing->coverUrl() }}" alt="" width="70" height="58"><div><strong>{{ $listing->title }}</strong><small>{{ $listing->location }}{{ $listing->is_demo?' · Demo':'' }}</small></div></div></td><td>{{ ucfirst($listing->kind) }}<small>{{ ucfirst($listing->category) }}</small></td><td>{{ $listing->priceLabel() }}</td><td><span class="status-pill">{{ $listing->trashed()?'Archived':ucfirst($listing->status) }}</span></td><td><div class="admin-row-actions">@if($listing->trashed())<button wire:click="restore({{ $listing->id }})" type="button">Restore</button>@else<a href="{{ route('admin.listings.edit',$listing->slug) }}">Edit</a>@if($listing->isPublic())<a href="{{ route($listing->kind==='stay'?'stays.show':'properties.show',$listing) }}" target="_blank" rel="noopener">View</a>@endif<button type="button" wire:click="archive({{ $listing->id }})" wire:confirm="Archive this listing? It will leave the public site and can be restored later.">Archive</button>@endif</div></td></tr>@empty<tr><td colspan="5"><p>No spaces match this view.</p><a href="{{ route('admin.listings.create') }}">Add your first listing</a></td></tr>@endforelse</tbody></table></div>{{ $this->listings->links('components.grei.pagination') }}</div>

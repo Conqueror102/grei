@@ -1,0 +1,14 @@
+<?php
+use App\Livewire\AdminComponent;
+use App\Models\Enquiry;
+use Livewire\Attributes\Layout;
+use Livewire\Attributes\Locked;
+new #[Layout('layouts::admin')] class extends AdminComponent {
+    #[Locked] public int $recordId; public string $status='';public string $notes='';
+    public function mount(Enquiry $enquiry):void{$this->recordId=$enquiry->id;$this->status=$enquiry->status;$this->notes=$enquiry->admin_notes??'';}
+    public function save():void{$this->validate(['status'=>'required|in:new,contacted,closed','notes'=>'nullable|string|max:12000']);Enquiry::findOrFail($this->recordId)->update(['status'=>$this->status,'admin_notes'=>$this->notes]);session()->flash('status','Enquiry updated.');}
+    public function archive(){Enquiry::findOrFail($this->recordId)->delete();return $this->redirectRoute('admin.enquiries');}
+    public function with():array{return ['enquiry'=>Enquiry::with(['listing','project'])->findOrFail($this->recordId)];}
+};
+?>
+<div><header class="admin-page-heading"><div><a class="text-link" href="{{ route('admin.enquiries') }}">← Enquiry inbox</a><h1>A conversation with {{ $enquiry->name }}</h1><p>Reference {{ $enquiry->reference }}</p></div></header>@if(session('status'))<p class="admin-flash" role="status">{{ session('status') }}</p>@endif<div class="admin-enquiry-grid"><section class="admin-panel"><p class="eyebrow">{{ ucfirst($enquiry->service) }} / {{ $enquiry->created_at->format('d M Y, H:i') }}</p><dl class="enquiry-contact-details"><dt>Email</dt><dd><a href="mailto:{{ $enquiry->email }}">{{ $enquiry->email }}</a></dd>@if($enquiry->phone)<dt>Phone</dt><dd>{{ $enquiry->phone }}</dd>@endif @if($enquiry->listing)<dt>Space</dt><dd>{{ $enquiry->listing->title }}</dd>@endif @if($enquiry->project)<dt>Project</dt><dd>{{ $enquiry->project->title }}</dd>@endif @if($enquiry->checkin)<dt>Stay dates</dt><dd>{{ $enquiry->checkin->format('d M Y') }} → {{ $enquiry->checkout?->format('d M Y') }}</dd><dt>Guests</dt><dd>{{ $enquiry->guests ?: 'Not specified' }}</dd>@endif</dl><h2>The enquiry</h2><p class="enquiry-message-text">{{ $enquiry->message }}</p><p class="detail-caption">Contact permission recorded {{ $enquiry->consented_at->format('d M Y, H:i') }}.</p></section><form wire:submit="save" class="admin-panel public-enquiry-form"><h2>Your follow-up</h2><label>Status<select wire:model="status"><option value="new">New</option><option value="contacted">Contacted</option><option value="closed">Closed</option></select></label><label>Private notes<textarea wire:model="notes" rows="9" maxlength="12000"></textarea></label>@if($errors->any())<div class="form-errors">@foreach($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif<button class="solid-button" type="submit">Save follow-up<x-grei.icon name="check" /></button><button class="text-link" wire:click="archive" wire:confirm="Archive this enquiry? You can restore it from the inbox." type="button">Archive enquiry</button></form></div></div>

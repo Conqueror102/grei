@@ -1,0 +1,88 @@
+.hero { max-width: var(--page-width); margin: 0 auto; padding: 0 var(--gutter); }
+.hero-scene { position: relative; height: clamp(670px, calc(100svh - 220px), 820px); }
+.hero-media {
+  --frame-inset: 12%; --hero-radius: clamp(140px, 15.3vw, 230px);
+  position: absolute; top: 0; bottom: 0; left: 33.7%; right: 0;
+  overflow: hidden;
+  /* The upper-left corner is one true quarter-circle, tangent to the top
+     and vertical edge. Do not add border-radius: it would clip it twice. */
+  clip-path: shape(
+    from calc(var(--frame-inset) + var(--hero-radius)) 0%,
+    line to 100% 0%, line to 100% 100%, line to 28% 100%,
+    curve to 22% 96% with 24% 100% / 22% 100%,
+    curve to 16% 91% with 21% 92% / 19% 91%,
+    line to 4% 91%,
+    curve to 0% 87% with 1.7909% 91% / 0% 89.2091%,
+    line to 0% 64%,
+    curve to 5% 59% with 0% 61.2386% / 2.2386% 59%,
+    curve to var(--frame-inset) 53%
+      with var(--frame-inset) 59% / var(--frame-inset) 56.3137%,
+    line to var(--frame-inset) var(--hero-radius),
+    arc to calc(var(--frame-inset) + var(--hero-radius)) 0%
+      of var(--hero-radius) cw,
+    close
+  );
+}
+.hero-photo { width: 100%; height: 100%; object-fit: cover; object-position: 56% 50%; }
+.hero-content { position: relative; z-index: 2; padding-top: clamp(100px, 8.8vw, 132px); pointer-events: none; }
+.hero-content a { pointer-events: auto; }
+.hero-title { margin: 0; font-family: var(--font-display); font-size: clamp(60px, 6.55vw, 108px); font-weight: 400; line-height: .96; letter-spacing: -.064em; color: #1E3029; }
+.title-mask { display: block; overflow: hidden; padding: .04em 0 .08em; margin-bottom: -.1em; }
+.title-line { display: inline-block; white-space: nowrap; }
+.hero-description { margin: 30px 0 0; font-size: clamp(16px, 1.5vw, 23px); line-height: 1.45; letter-spacing: -.025em; color: #20332A; }
+.hero-actions { margin-top: 30px; display: flex; align-items: center; gap: 39px; }
+.split-button { display: inline-flex; align-items: center; gap: 7px; }
+.button-label { display: inline-flex; align-items: center; justify-content: center; padding: 0 40px; height: 62px; border-radius: 999px; background: var(--color-forest); color: var(--color-ivory); font-size: 18px; letter-spacing: -.02em; transition: background var(--duration-medium), padding var(--duration-medium) var(--ease-out); }
+.button-orb { width: 62px; height: 62px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-forest); color: var(--color-ivory); transition: background var(--duration-medium); }
+.button-orb .icon { width: 26px; height: 26px; transition: transform var(--duration-medium) var(--ease-out); }
+.split-button:hover .button-label { background: #2F4238; }
+.split-button:hover .button-orb { background: #8B7047; }
+.split-button:hover .button-orb .icon { transform: rotate(45deg); }
+.split-button:active { scale: .975; }
+.story-link { margin-bottom: 3px; }
+.portal-stage { width: 170px; margin-top: 25px; margin-left: 2px; pointer-events: auto; perspective: 700px; }
+.metal-portal { width: 100%; height: auto; transform-origin: center 75%; }
+.hero-baseline { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--color-line); padding: 15px 0 23px; margin-top: 25px; gap: 24px; }
+.hero-baseline .eyebrow { color: #434B43; }
+.hero-baseline .eyebrow span { padding: 0 12px; }
+.scroll-cue { display: inline-flex; align-items: center; gap: 15px; font-size: 11px; letter-spacing: .12em; }
+.scroll-cue .icon { width: 19px; height: 19px; transition: transform var(--duration-medium) var(--ease-out); }
+.scroll-cue:hover .icon { transform: translateY(5px); }
+@media (min-width: 1680px) { .hero-title { font-size: 108px; } }
+@media (max-width: 1150px) and (min-width: 961px) { .hero-scene { height: 660px; } .hero-content { padding-top: 102px; } .hero-title { font-size: 6.1vw; } .hero-description { font-size: 16px; margin-top: 28px; } .hero-actions { gap: 25px; margin-top: 29px; } .button-label { height: 54px; padding: 0 26px; font-size: 14px; } .button-orb { width: 54px; height: 54px; } .portal-stage { width: 150px; margin-top: 28px; } }
+@media (max-width: 960px) {
+  .hero-scene { display: flex; flex-direction: column; height: auto; }
+  .hero-content { order: 1; padding: 42px 0 31px; }
+  .hero-title { font-size: clamp(36px, 7.9vw, 62px); line-height: 1.12; letter-spacing: -.058em; }
+  .hero-description { margin-top: 23px; font-size: 15px; line-height: 1.6; }
+  .hero-actions { margin-top: 25px; gap: 25px; }
+  .button-label { height: 49px; padding: 0 24px; font-size: 14px; }
+  .button-orb { height: 49px; width: 49px; }
+  .button-orb .icon { width: 21px; height: 21px; }
+  .story-link { font-size: 12px; }
+  .portal-stage { display: none; }
+  .hero-media { order: 2; position: relative; inset: auto; width: 100%; height: clamp(340px, 66vw, 520px); clip-path: shape(from 85px 0%, line to 100% 0%, line to 100% 100%, line to 27% 100%, curve to 20% 94% with 22% 100% / 20% 100%, line to 7% 94%, curve to 0% 87% with 3.134% 94% / 0% 90.866%, line to 0% 85px, arc to 85px 0% of 85px cw, close); }
+  .hero-photo { object-position: 54% 50%; }
+  .hero-baseline { margin-top: 19px; padding-top: 13px; }
+  .hero-baseline .eyebrow { font-size: 8px; letter-spacing: .12em; }
+  .hero-baseline .eyebrow span { padding: 0 5px; }
+  .scroll-cue { gap: 7px; font-size: 9px; letter-spacing: .035em; }
+  .scroll-cue .icon { width: 15px; height: 15px; }
+}
+@media (max-width: 360px) { .hero-title { font-size: 32px; } .hero-actions { gap: 18px; } .button-label { padding: 0 20px; } .scroll-cue > span:first-child { max-width: 60px; } }
+@media (max-height: 980px) and (min-width: 961px) {
+  .site-header { padding-top: 18px; padding-bottom: 18px; }
+  .hero-scene { height: max(420px, calc(100svh - 180px)); }
+  .hero-content { padding-top: clamp(38px, calc(100svh - 790px), 100px); }
+  .hero-title { font-size: clamp(64px, 6.2vw, 96px); line-height: .94; }
+  .hero-description { margin-top: 20px; font-size: 16px; }
+  .hero-actions { margin-top: 22px; }
+  .button-label { height: 50px; font-size: 14px; padding: 0 28px; }
+  .button-orb { width: 50px; height: 50px; }
+  .portal-stage { width: clamp(82px, calc(60svh - 350px), 170px); margin-top: 10px; }
+  .hero-photo { object-position: 56% 62%; }
+  .hero-baseline { margin-top: 16px; padding-top: 12px; padding-bottom: 12px; }
+}
+@media (max-height: 980px) and (min-width: 1680px) {
+  .hero-title { font-size: 108px; }
+}

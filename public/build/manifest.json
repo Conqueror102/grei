@@ -1,0 +1,49 @@
+{
+  "node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff": {
+    "file": "assets/manrope-latin-400-normal-8tf8FM3T.woff",
+    "src": "node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff"
+  },
+  "node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2": {
+    "file": "assets/manrope-latin-400-normal-PaqtzbVb.woff2",
+    "src": "node_modules/@fontsource/manrope/files/manrope-latin-400-normal.woff2"
+  },
+  "node_modules/@fontsource/manrope/files/manrope-latin-500-normal.woff": {
+    "file": "assets/manrope-latin-500-normal-DMZssgOp.woff",
+    "src": "node_modules/@fontsource/manrope/files/manrope-latin-500-normal.woff"
+  },
+  "node_modules/@fontsource/manrope/files/manrope-latin-500-normal.woff2": {
+    "file": "assets/manrope-latin-500-normal-BYYD-dBL.woff2",
+    "src": "node_modules/@fontsource/manrope/files/manrope-latin-500-normal.woff2"
+  },
+  "node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff": {
+    "file": "assets/manrope-latin-600-normal-BqgrALkZ.woff",
+    "src": "node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff"
+  },
+  "node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2": {
+    "file": "assets/manrope-latin-600-normal-4f0koTD-.woff2",
+    "src": "node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2"
+  },
+  "node_modules/@fontsource/unbounded/files/unbounded-latin-400-normal.woff": {
+    "file": "assets/unbounded-latin-400-normal-CiSqyYx3.woff",
+    "src": "node_modules/@fontsource/unbounded/files/unbounded-latin-400-normal.woff"
+  },
+  "node_modules/@fontsource/unbounded/files/unbounded-latin-400-normal.woff2": {
+    "file": "assets/unbounded-latin-400-normal-DxT99aXF.woff2",
+    "src": "node_modules/@fontsource/unbounded/files/unbounded-latin-400-normal.woff2"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-CDQQ5X5i.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-Bo8dmxa_.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}

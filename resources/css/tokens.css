@@ -1,0 +1,16 @@
+:root {
+  --color-ivory: #F5F1E8;
+  --color-stone: #E5DDD0;
+  --color-charcoal: #252824;
+  --color-forest: #3E5147;
+  --color-brass: #A58152;
+  --color-muted: #5F665D;
+  --color-line: #B9BDB0;
+  --font-display: 'Unbounded', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --page-width: 1680px;
+  --gutter: clamp(24px, 4.15vw, 70px);
+  --duration-fast: 180ms;
+  --duration-medium: 380ms;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}

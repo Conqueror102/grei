@@ -1,0 +1,24 @@
+.enquiry-dialog { border: 0; border-radius: 28px 28px 8px 28px; padding: 0; width: min(540px, calc(100% - 32px)); max-height: calc(100svh - 40px); color: var(--color-charcoal); background: var(--color-ivory); box-shadow: 0 24px 100px #17241C33; }
+.enquiry-dialog::backdrop { background: #1D3029A6; backdrop-filter: blur(7px); }
+.dialog-inner { position: relative; padding: 38px; }
+.enquiry-dialog .dialog-close { position: sticky; top: 16px; margin: 16px 16px -56px auto; display: flex; z-index: 2; width: 40px; height: 40px; background: var(--color-stone); }
+.dialog-close:hover { background: var(--color-forest); color: var(--color-ivory); }
+.dialog-close .icon { width: 18px; height: 18px; }
+.dialog-inner > .eyebrow { margin: 0 0 24px; color: var(--color-muted); }
+.dialog-inner h2 { font-family: var(--font-display); font-size: 34px; font-weight: 400; line-height: 1.25; letter-spacing: -.055em; margin: 0 0 15px; }
+.dialog-description { margin: 0 0 25px; font-size: 13px; line-height: 1.7; }
+#enquiry-form { display: flex; flex-direction: column; }
+#enquiry-form label { margin-bottom: 8px; font-size: 12px; font-weight: 600; }
+#enquiry-form input, #enquiry-form select, #enquiry-form textarea { width: 100%; border: 1px solid var(--color-line); border-radius: 6px; background: transparent; color: var(--color-charcoal); font-size: 14px; padding: 13px 14px; margin-bottom: 19px; }
+#enquiry-form textarea { resize: vertical; min-height: 100px; }
+.dialog-submit { width: 100%; border-radius: 999px; color: var(--color-ivory); background: var(--color-forest); min-height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 12px 22px; font-size: 14px; transition: background var(--duration-fast), transform var(--duration-fast); }
+.dialog-submit:hover { background: #2F4238; }
+.dialog-submit:hover .icon { transform: translate(2px,-2px); }
+.dialog-submit .icon { width: 22px; height: 22px; transition: transform var(--duration-fast); }
+.dialog-submit:active { transform: scale(.98); }
+.enquiry-note, .enquiry-status { font-size: 11px; line-height: 1.7; color: var(--color-muted); margin: 12px 0 0; }
+.enquiry-status:empty { display: none; }
+.result-title { font-weight: 600; margin: 0 0 12px; }
+#enquiry-preview { white-space: pre-wrap; font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; padding: 18px; border-radius: 8px; background: var(--color-stone); }
+.edit-enquiry { margin-top: 12px; }
+@media (max-width: 600px) { .dialog-inner { padding: 29px 24px; } .dialog-inner h2 { font-size: 28px; } #enquiry-form input, #enquiry-form select, #enquiry-form textarea { font-size: 16px; } }

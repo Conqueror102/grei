@@ -1,0 +1,16 @@
+<?php
+use App\Livewire\AdminComponent;
+use App\Services\BrandSettings;
+use Livewire\Attributes\Layout;
+
+new #[Layout('layouts::admin')] class extends AdminComponent {
+    public array $form=['whatsapp_number'=>'','contact_email'=>'','office_address'=>'','about_text'=>'','tagline'=>'Property. Stays. Interiors.','privacy_text'=>'','terms_text'=>''];
+    public function mount():void{foreach(array_keys($this->form) as $key)$this->form[$key]=app(BrandSettings::class)->get($key,$this->form[$key])??'';}
+    public function save():void{
+        $this->form['whatsapp_number']=preg_replace('/[\s+()\-]/','',$this->form['whatsapp_number']);
+        $validated=$this->validate(['form.whatsapp_number'=>'nullable|regex:/^[1-9]\d{7,14}$/','form.contact_email'=>'nullable|email:rfc|max:254','form.office_address'=>'nullable|string|max:500','form.about_text'=>'nullable|string|max:12000','form.tagline'=>'required|string|max:100','form.privacy_text'=>'nullable|string|max:30000','form.terms_text'=>'nullable|string|max:30000']);
+        app(BrandSettings::class)->save($validated['form']+['policy_updated_at'=>now()->toDateString()]);session()->flash('status','Brand settings saved. New WhatsApp links use this number immediately.');
+    }
+};
+?>
+<div><header class="admin-page-heading"><div><p class="eyebrow">One considered point of view.</p><h1>Brand & contact</h1><p>Control GREI’s contact details, story and website notices.</p></div></header>@if(session('status'))<p class="admin-flash" role="status">{{ session('status') }}</p>@endif @if($errors->any())<div class="form-errors" role="alert">@foreach($errors->all() as $error)<p>{{ $error }}</p>@endforeach</div>@endif<form wire:submit="save" class="admin-editor-form"><section class="admin-panel"><h2>How people reach GREI</h2><label>WhatsApp number<input type="tel" wire:model="form.whatsapp_number" placeholder="Country code + number" maxlength="35"><small>Include the country code. Spaces, brackets and + are normalised. Leave empty to use the website enquiry form instead.</small></label><div class="form-pair"><label>Contact email<input type="email" wire:model="form.contact_email" maxlength="254"></label><label>Office address<input wire:model="form.office_address" maxlength="500"></label></div></section><section class="admin-panel"><h2>The brand story</h2><label>Footer tagline<input wire:model="form.tagline" maxlength="100"></label><label>About GREI<textarea wire:model="form.about_text" rows="7" maxlength="12000"></textarea></label></section><section class="admin-panel"><h2>Website notices</h2><p>Keep these aligned with GREI’s actual contact, data handling and business arrangements before launch.</p><label>Privacy notice<textarea wire:model="form.privacy_text" rows="10" maxlength="30000"></textarea></label><label>Website terms<textarea wire:model="form.terms_text" rows="10" maxlength="30000"></textarea></label></section><button class="solid-button" type="submit" wire:loading.attr="disabled">Save brand settings<x-grei.icon name="check" /></button></form><section class="admin-panel admin-future"><p class="eyebrow">Room for what’s next.</p><h2>Future retail</h2><p>The public navigation and domain modules can accommodate a retail division when the product catalogue is ready. The shop is disabled until that division is implemented.</p></section></div>

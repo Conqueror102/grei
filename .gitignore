@@ -1,0 +1,11 @@
+/node_modules/
+/dist/
+/public/hot
+/vendor/
+/work/
+.env
+.env.*
+!.env.example
+*.log
+
+.phpunit.result.cache
